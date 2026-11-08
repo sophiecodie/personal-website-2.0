@@ -104,7 +104,7 @@ export default function Library() {
         <div className="libhead">
           <div data-reveal>
             <div className="eyebrow">Act II</div>
-            <h2>The Library</h2>
+            <h2>The Project Library</h2>
             <p className="note" style={{ marginBottom: 0 }}>
               Seven projects and one reading list, landed in no particular order. Pick a sorting method and they will shelve
               themselves once, then stay put. Open any book to read it; the last one holds my favorite books and writing.

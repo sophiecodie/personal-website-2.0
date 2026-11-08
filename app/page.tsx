@@ -23,7 +23,14 @@ export default function Home() {
         <Contents />
         <Library />
         <Curtain />
-        <div className="in"><footer>© 2026 Sophie Shih · Particles, poses and sorting written by hand. New York · Durham.</footer></div>
+        <div className="in">
+          <footer>
+            <p className="theme-note">
+              The theme of this site is inspired by my love for dancing, reading, and building.
+            </p>
+            © 2026 Sophie Shih · Particles, poses and sorting written by hand. New York · Durham.
+          </footer>
+        </div>
       </main>
     </>
   );

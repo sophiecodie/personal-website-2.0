@@ -5,9 +5,9 @@ export default function Hero() {
     <section className="hero" id="top">
       <div>
         <div className="eyebrow" data-hero>Overture</div>
-        <h1 aria-label="Sophie in motion">
+        <h1 aria-label={site.name}>
           <span className="split-line"><span>Sophie</span></span>
-          <span className="split-line"><span><em>in motion</em></span></span>
+          <span className="split-line"><span><em>Suzuki Shih</em></span></span>
         </h1>
         <p className="lede" data-hero>{site.lede}</p>
         <div className="cue" data-hero>Scroll to begin ↓</div>
