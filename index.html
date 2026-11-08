@@ -1,0 +1,707 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Sophie Shih</title>
+<meta name="description" content="Sophie Shih: Duke CS + Neuroscience. Projects, experience, books and writing.">
+<meta property="og:title" content="Sophie Shih">
+<meta property="og:description" content="Projects, experience, books and writing, staged as a ballet in two acts.">
+<meta property="og:image" content="assets/headshot.jpg">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23f3ece0'/%3E%3Ctext x='32' y='45' font-family='Georgia,serif' font-size='38' font-style='italic' text-anchor='middle' fill='%235b3a52'%3ES%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,600;1,6..96,400&family=Jost:wght@300;400;500&family=IBM+Plex+Mono:wght@400&display=swap">
+<style>
+/* Layout: one continuous scroll in acts, like a ballet programme. A fixed particle canvas sits behind the page and
+   re-forms at each act: dancer → stage plan → falling pages → bookshelf → bow. Deliberately single-theme (cream). */
+:root{
+  color-scheme: light;
+  --cream:#f3ece0; --cream-2:#ebe2d2; --paper:#fffcf6;
+  --ink:#2e2433; --ink-soft:#6e6270; --rule:#d8ccb9;
+  --plum:#5b3a52; --rose:#b0607a; --gold:#a8834a;
+  --display:"Bodoni Moda", "Didot", "Bodoni 72", Georgia, serif;
+  --body:"Jost", "Futura", "Avenir Next", system-ui, sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--cream);color:var(--ink);font-family:var(--body);font-weight:400;font-size:16px;line-height:1.6}
+#fx{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+main{position:relative;z-index:1}
+.in{max-width:1160px;margin:0 auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+.eyebrow{font-family:var(--body);font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--rose);font-weight:500}
+h1,h2,h3{font-family:var(--display);font-weight:400;margin:0;text-wrap:balance;letter-spacing:-.01em}
+.tech{font-family:var(--mono);font-size:11.5px;color:var(--ink-soft);letter-spacing:.02em}
+
+/* nav */
+nav.top{display:flex;justify-content:space-between;align-items:center;padding-block:22px;font-size:13px;letter-spacing:.16em;text-transform:uppercase}
+nav.top a{color:var(--ink);text-decoration:none}
+nav.top .links{display:flex;gap:26px}
+nav.top a:hover,nav.top a:focus-visible{color:var(--rose)}
+@media (max-width:640px){nav.top .links{gap:14px;font-size:11px}}
+
+/* overture */
+.hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);align-items:center;gap:24px;min-height:min(86vh,820px);padding-block:10px 40px}
+.hero h1{font-size:clamp(64px,11vw,148px);line-height:.9;font-weight:400}
+.hero h1 em{font-style:italic;color:var(--plum)}
+.hero .lede{font-size:clamp(17px,1.6vw,20px);font-weight:300;max-width:34ch;margin:18px 0 22px;color:var(--ink-soft)}
+.hero .cue{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft)}
+.fig{aspect-ratio:1/1;width:100%;max-width:600px;justify-self:center;position:relative}
+.fig .tech{position:absolute;right:0;top:4%;text-align:right;line-height:1.7}
+@media (max-width:760px){.hero{grid-template-columns:minmax(0,1fr);min-height:0}.fig{order:-1;max-width:420px}}
+
+/* act I: stage */
+.act{padding-block:60px}
+.stagewrap{height:175vh;position:relative}
+.stagepanel{position:sticky;top:0;min-height:100vh;display:flex;align-items:center}
+.stagegrid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:48px;align-items:center;width:100%}
+.act h2,#experience h2{font-size:clamp(40px,5.5vw,68px);line-height:1}
+.note{color:var(--ink-soft);font-weight:300;max-width:42ch;margin:14px 0 26px}
+ol.exp{list-style:none;margin:0;padding:0;display:grid;gap:4px}
+ol.exp li{display:grid;grid-template-columns:34px minmax(0,1fr);gap:14px;padding:14px 12px 14px 0;border-top:1px solid var(--rule);cursor:default;transition:background .25s}
+ol.exp li:last-child{border-bottom:1px solid var(--rule)}
+ol.exp li.on{background:rgba(255,252,246,.7)}
+.pin{width:28px;height:28px;border-radius:50%;border:1px solid var(--rose);color:var(--rose);display:grid;place-items:center;font-family:var(--display);font-size:14px;margin-top:3px}
+ol.exp li.on .pin{background:var(--rose);color:var(--paper)}
+ol.exp h3{font-size:22px;line-height:1.15}
+ol.exp .org{font-size:14.5px;color:var(--ink)}
+ol.exp .meta{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);margin-top:2px}
+.plan{position:relative;width:100%;aspect-ratio:4/3.4}
+.plan .lab{position:absolute;font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-soft);white-space:nowrap;transform:translate(-50%,-50%)}
+.plan .lab.big{font-size:11.5px;color:var(--plum);font-weight:500}
+.plan .area{position:absolute;font-family:var(--mono);font-size:10px;color:rgba(46,36,51,.38);transform:translate(-50%,-50%)}
+.plan .spike{position:absolute;transform:translate(-50%,-50%);display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--cream);border:1px solid var(--rose);color:var(--rose);font-family:var(--display);font-size:14px;transition:background .25s,color .25s,box-shadow .25s}
+.plan .spike.on{background:var(--rose);color:var(--paper);box-shadow:0 0 0 8px rgba(176,96,122,.14)}
+.plan .tech{position:absolute;left:0;bottom:-6px}
+@media (max-width:860px){.stagewrap{height:auto}.stagepanel{position:static;min-height:0}.stagegrid{grid-template-columns:minmax(0,1fr)}.plan{order:-1}}
+
+/* entr'acte */
+.interlude{height:150vh;display:flex;align-items:center;justify-content:center}
+.interlude .card{background:rgba(243,236,224,.86);backdrop-filter:blur(2px);padding:34px 36px;max-width:520px;text-align:center;border-radius:2px}
+.interlude h2{font-size:clamp(34px,4.5vw,54px);font-style:italic;line-height:1.08}
+.interlude p{color:var(--ink-soft);font-weight:300;margin:12px 0 18px}
+.code{display:inline-block;text-align:left;font-family:var(--mono);font-size:12.5px;line-height:1.75;color:var(--ink-soft);background:var(--paper);border:1px solid var(--rule);padding:12px 18px}
+.code b{font-weight:400;color:var(--plum)}.code i{font-style:normal;color:var(--rose)}.code u{text-decoration:none;color:#a99c93}
+
+/* contents */
+.contents{padding-block:90px 70px;display:flex;justify-content:center}
+.toc{position:relative;background:var(--paper);width:min(640px,100%);padding:48px 52px 40px;box-shadow:0 18px 40px -24px rgba(60,40,25,.45)}
+.toc::before,.toc::after{content:"";position:absolute;inset:0;background:var(--paper);z-index:-1;box-shadow:0 10px 24px -18px rgba(60,40,25,.4)}
+.toc::before{transform:rotate(-2.5deg) translate(6px,8px)}
+.toc::after{transform:rotate(2deg) translate(-8px,12px)}
+.toc .eyebrow{text-align:center}
+.toc h2{text-align:center;font-size:clamp(34px,4.4vw,50px);font-style:italic;margin:4px 0 26px}
+.toc ol{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+.toc a{display:grid;grid-template-columns:30px auto minmax(12px,1fr) auto;align-items:baseline;gap:10px;padding:7px 0;color:var(--ink);text-decoration:none}
+.toc a:hover .tt,.toc a:focus-visible .tt{color:var(--rose)}
+.toc .n{font-family:var(--display);font-style:italic;color:var(--gold)}
+.toc .tt{font-family:var(--display);font-size:19px;transition:color .2s}
+.toc .tt small{font-family:var(--body);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);margin-left:10px}
+.toc .lead{border-bottom:1px dotted #b9ab98;transform:translateY(-5px)}
+.toc .yr{font-family:var(--body);font-size:14px;color:var(--ink-soft);font-variant-numeric:tabular-nums}
+.toc .foot{margin-top:22px;text-align:center;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft)}
+@media (max-width:560px){.toc{padding:34px 22px 28px}.toc .tt small{display:none}.toc .tt{font-size:17px}}
+
+/* act II: library */
+.libhead{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:30px}
+.sorter{display:grid;gap:10px;justify-items:start}
+.seg{display:flex;flex-wrap:wrap;border:1px solid var(--ink);border-radius:999px;overflow:hidden}
+.seg input{position:absolute;opacity:0;pointer-events:none}
+.seg label{padding:8px 16px;font-size:13px;letter-spacing:.06em;cursor:pointer;border-right:1px solid var(--ink);user-select:none}
+.seg label:last-of-type{border-right:0}
+.seg input:checked + label{background:var(--ink);color:var(--cream)}
+.seg input:focus-visible + label{outline:2px solid var(--rose);outline-offset:-4px}
+.go{font:inherit;font-size:13px;letter-spacing:.14em;text-transform:uppercase;background:var(--plum);color:var(--paper);border:0;border-radius:999px;padding:10px 20px;cursor:pointer}
+.go:disabled{opacity:.5;cursor:default}
+.go:focus-visible{outline:2px solid var(--rose);outline-offset:3px}
+.status{min-height:1.6em}
+.shelf{position:relative;margin-top:10px}
+.board{position:absolute;left:-14px;right:-14px;bottom:0;height:14px;background:linear-gradient(#8a6a4e,#6c513b);border-radius:1px;box-shadow:0 10px 18px -10px rgba(60,40,20,.55)}
+.book{position:absolute;bottom:14px;border:0;padding:0;cursor:pointer;border-radius:2px 2px 0 0;transform-origin:50% 100%;
+  transition:left .28s cubic-bezier(.55,.05,.3,1),transform .45s cubic-bezier(.3,1.3,.5,1),box-shadow .2s,opacity .3s;
+  display:flex;flex-direction:column;align-items:center;justify-content:space-between;color:#f5ead6;font-family:var(--display);
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,.08),2px 0 3px -1px rgba(40,25,15,.25)}
+.book::before{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(90deg,rgba(0,0,0,.22),rgba(255,255,255,.10) 22%,rgba(255,255,255,0) 45%,rgba(0,0,0,.16));pointer-events:none}
+.book .band{width:70%;height:7px;border-block:1px solid var(--foil);margin-top:12px;flex:none}
+.book .band.b{margin:0 0 4px}
+.book .t{writing-mode:vertical-rl;transform:rotate(180deg);font-size:var(--fs,14px);letter-spacing:.06em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-height:70%;font-variant:small-caps}
+.book .y{font-family:var(--body);font-size:10px;letter-spacing:.1em;color:var(--foil);margin-bottom:8px}
+.book.hi{box-shadow:0 0 0 2px var(--cream),0 0 0 3.5px var(--rose)}
+.book.sel{box-shadow:0 0 0 2px var(--cream),0 0 0 3px var(--gold),0 14px 18px -12px rgba(40,25,15,.5)}
+.book:focus-visible{outline:2px solid var(--rose);outline-offset:3px}
+.bookend{position:absolute;bottom:14px;width:12px;height:70px;background:linear-gradient(90deg,#b8955a,#d9bd85 40%,#9c7a45);border-radius:2px 2px 0 0;transition:left .28s}
+.detail{display:grid;grid-template-columns:auto minmax(0,1fr);gap:28px;align-items:start;margin-top:46px;padding-top:28px;border-top:1px solid var(--rule)}
+.detail .num{font-family:var(--display);font-size:64px;line-height:.8;color:var(--gold);font-style:italic}
+.detail h3{font-size:clamp(28px,3.4vw,40px);line-height:1.05}
+.detail .meta{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);margin:8px 0 10px}
+.detail p{margin:0;max-width:60ch;font-weight:300;font-size:17px}
+.detail .links{margin-top:12px;font-size:14px;display:flex;gap:18px}
+.detail .links a{color:var(--plum)}
+@media (max-width:640px){.detail{grid-template-columns:minmax(0,1fr);gap:8px}.detail .num{font-size:44px}}
+
+/* curtain */
+.curtain{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.8fr);gap:30px;align-items:center;padding-block:80px 60px}
+.curtain h2{font-size:clamp(46px,7vw,92px);line-height:.95}
+.curtain h2 em{font-style:italic;color:var(--plum)}
+.contact{display:grid;gap:6px;margin-top:22px;font-size:16px}
+.contact span{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft);margin-top:8px}
+.contact a{color:var(--ink)}
+#bow{aspect-ratio:1/1;width:100%;max-width:420px;justify-self:center}
+@media (max-width:760px){.curtain{grid-template-columns:minmax(0,1fr)}#bow{max-width:300px}}
+footer{padding-block:30px 50px;font-size:12px;color:var(--ink-soft);letter-spacing:.06em;border-top:1px solid var(--rule)}
+.placeholder{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+html,body{margin:0;padding:0}
+img{max-width:100%}
+.nav-name{font-family:var(--display);font-size:18px;letter-spacing:.02em;text-transform:none}
+/* experience extras */
+ol.exp .more{display:grid;grid-template-rows:0fr;transition:grid-template-rows .35s ease}
+ol.exp .more>div{overflow:hidden}
+ol.exp li.on .more{grid-template-rows:1fr}
+ol.exp .more p{margin:8px 0 0;font-size:14.5px;font-weight:300;color:var(--ink-soft);max-width:52ch}
+ol.exp .more a{color:var(--plum);font-size:13.5px;margin-right:16px}
+ol.exp li{cursor:pointer}
+/* richer book detail */
+.detail .body{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:32px;align-items:start}
+.detail .body.noimg{grid-template-columns:minmax(0,1fr)}
+.detail figure{margin:0;background:var(--paper);border:1px solid var(--rule);padding:8px;box-shadow:0 14px 30px -22px rgba(60,40,25,.5)}
+.detail figure img{display:block;width:100%;height:auto;max-height:340px;object-fit:contain;background:#fff}
+.detail ul.hl{margin:14px 0 0;padding:0;list-style:none;display:grid;gap:6px;max-width:60ch}
+.detail ul.hl li{position:relative;padding-left:18px;font-size:15px;font-weight:300}
+.detail ul.hl li::before{content:"✦";position:absolute;left:0;top:1px;font-size:10px;color:var(--gold)}
+.detail .links{flex-wrap:wrap}
+.detail .ctx{font-size:14px;color:var(--rose);margin:-4px 0 10px}
+.minishelf{display:flex;flex-wrap:wrap;gap:14px 12px;align-items:flex-end;padding:18px 6px 0;border-bottom:12px solid #7a5c43;box-shadow:0 10px 18px -12px rgba(60,40,20,.5);margin:16px 0 8px}
+.minishelf a{display:block;width:clamp(62px,9vw,88px);transition:transform .3s cubic-bezier(.3,1.3,.5,1)}
+.minishelf a:hover,.minishelf a:focus-visible{transform:translateY(-8px) rotate(-2deg)}
+.minishelf img{display:block;width:100%;aspect-ratio:2/3;object-fit:cover;box-shadow:2px 3px 8px -3px rgba(40,25,15,.55);border-radius:1px 3px 3px 1px}
+.reads{display:grid;gap:28px}
+.reads h4{font-family:var(--body);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--rose);font-weight:500;margin:0}
+ul.works{list-style:none;margin:10px 0 0;padding:0;display:grid;gap:2px}
+ul.works a{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;padding:10px 0;border-top:1px solid var(--rule);color:var(--ink);text-decoration:none}
+ul.works a:hover .wt{color:var(--rose)}
+ul.works .wt{font-family:var(--display);font-size:18px;line-height:1.25;transition:color .2s}
+ul.works .wm{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);white-space:nowrap}
+.headshot{width:112px;height:112px;border-radius:50%;object-fit:cover;object-position:50% 18%;border:1px solid var(--rule);box-shadow:0 0 0 6px var(--paper),0 0 0 7px var(--rule);margin-bottom:22px}
+.nav-name{white-space:nowrap}
+@media (max-width:760px){.detail .body{grid-template-columns:minmax(0,1fr)}ul.works a{grid-template-columns:minmax(0,1fr);gap:2px}ul.works .wm{white-space:normal}}
+@media (max-width:480px){nav.top{gap:12px}nav.top .links{gap:10px;font-size:10px;letter-spacing:.1em}.nav-name{font-size:16px}}
+</style>
+</head>
+<body>
+
+<canvas id="fx" aria-hidden="true"></canvas>
+<main>
+  <div class="in">
+    <nav class="top"><a href="#top" class="nav-name">Sophie Shih</a><div class="links"><a href="#experience">Experience</a><a href="#contents">Projects</a><a href="assets/Sophie_Shih_resume.pdf" target="_blank" rel="noopener">Résumé</a><a href="#curtain">Contact</a></div></nav>
+
+    <!-- OVERTURE -->
+    <section class="hero" id="top">
+      <div>
+        <div class="eyebrow">Overture</div>
+        <h1>Sophie<br><em>in motion</em></h1>
+        <p class="lede">Computer Science and Neuroscience at Duke. I build AI and data tools that make medicine and cities easier to understand, and I learn them the way I learn choreography: count it out, then make it look easy.</p>
+        <div class="cue">Scroll to begin ↓</div>
+      </div>
+      <div class="fig" id="fig"><div class="tech" id="hud">pose · arabesque<br>confidence 0.97</div></div>
+    </section>
+  </div>
+
+  <!-- ACT I -->
+  <section class="stagewrap" id="experience">
+    <div class="stagepanel">
+      <div class="in" style="width:100%">
+        <div class="stagegrid">
+          <div>
+            <div class="eyebrow">Act I</div>
+            <h2>Experience</h2>
+            <p class="note">Each role has a spike mark on the stage. Downstage is the most recent. The further upstage, the further back in time.</p>
+            <ol class="exp" id="exp">
+              <li data-i="0"><span class="pin">1</span><div><h3>AI Research Intern</h3><div class="org">Mass General Brigham · PI Dr. Synho Do</div><div class="meta">Jun – Sep 2025 · downstage center</div><div class="more"><div><p>Built Neurobiome Navigator: an AI agent over the MINERVA knowledge graph (66,000+ microbe–disease links) with semantic paper search, plus a thesis on turning biomedical findings into accessible teaching tools.</p><p><a href="https://www.medrxiv.org/content/10.1101/2025.09.18.25335721v1" target="_blank" rel="noopener">Thesis ↗</a><a href="#book-neurobiome">Open the book</a></p></div></div></div></li>
+              <li data-i="1"><span class="pin">2</span><div><h3>Code Coach</h3><div class="org">TheCoderSchool</div><div class="meta">Nov 2024 – Jun 2025 · stage left</div><div class="more"><div><p>Coached five students, ages 7 to 10, one-on-one in Scratch, and designed 15+ projects, including games that teach gravity, acceleration and collisions.</p></div></div></div></li>
+              <li data-i="2"><span class="pin">3</span><div><h3>Radiology AI Research Intern</h3><div class="org">Weill Cornell Medicine · PI Dr. Martin Prince</div><div class="meta">Jul 2024 – Jun 2025 · stage right</div><div class="more"><div><p>Annotated 500+ abdominal MRIs for kidney-disease segmentation, contributed to TraceOrg (0.97 Dice), and used few-shot LLM prompting to explain incidental findings to patients (RSNA abstract).</p></div></div></div></li>
+              <li data-i="3"><span class="pin">4</span><div><h3>Volunteer</h3><div class="org">Believers · Tokyo</div><div class="meta">Summers 2024 & 2025 · upstage left</div><div class="more"><div><p>Led crafts, geography, cooking and music with elementary students at a “third space” for kids who struggle in traditional school.</p></div></div></div></li>
+              <li data-i="4"><span class="pin">5</span><div><h3>Healthcare AI Intern</h3><div class="org">MD.ai</div><div class="meta">Jun – Jul 2023 · upstage center</div><div class="more"><div><p>Engineered an LLM-agent framework that turns radiology reports into patient-friendly letters, co-authored an arXiv paper, and took 2nd place at the SIIM Hackathon.</p><p><a href="#book-agent00hl7">Open the book</a></p></div></div></div></li>
+            </ol>
+          </div>
+          <div class="plan" id="plan">
+            <span class="lab big" style="left:50%;top:3%">Upstage</span>
+            <span class="lab big" style="left:50%;top:84%">Downstage</span>
+            <span class="lab" style="left:50%;top:97%">Audience</span>
+            <span class="lab big" style="left:2.5%;top:43%;transform:translate(-50%,-50%) rotate(-90deg)">Stage right</span>
+            <span class="lab big" style="left:97.5%;top:43%;transform:translate(-50%,-50%) rotate(90deg)">Stage left</span>
+            <span class="area" style="left:22%;top:13%">USR</span><span class="area" style="left:50%;top:13%">USC</span><span class="area" style="left:78%;top:13%">USL</span>
+            <span class="area" style="left:22%;top:36%">SR</span><span class="area" style="left:50%;top:36%">C</span><span class="area" style="left:78%;top:36%">SL</span>
+            <span class="area" style="left:22%;top:59%">DSR</span><span class="area" style="left:50%;top:59%">DSC</span><span class="area" style="left:78%;top:59%">DSL</span>
+            <span class="spike" data-i="0" style="left:50%;top:67%">1</span>
+            <span class="spike" data-i="1" style="left:78%;top:44%">2</span>
+            <span class="spike" data-i="2" style="left:22%;top:44%">3</span>
+            <span class="spike" data-i="3" style="left:78%;top:21%">4</span>
+            <span class="spike" data-i="4" style="left:50%;top:21%">5</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ENTR'ACTE -->
+  <section class="interlude" id="interlude">
+    <div class="card">
+      <div class="eyebrow">Entr'acte</div>
+      <h2>Every project began as a loose page</h2>
+      <p>The stage breaks apart, and the pages drift down toward the library.</p>
+      <div class="code"><u># choreography.py</u><br><b>stage</b>.burst(force=<i>0.6</i>)<br><b>pages</b> = particles.assemble(n=<i>8</i>)<br><b>shelf</b>.receive(pages)</div>
+    </div>
+  </section>
+
+  <!-- CONTENTS -->
+  <section class="contents in" id="contents">
+    <div class="toc" id="toc">
+      <div class="eyebrow">Contents</div>
+      <h2>Projects, at a glance</h2>
+      <ol id="tocList"></ol>
+      <div class="foot">Keep scrolling to browse them as books ↓</div>
+    </div>
+  </section>
+
+  <!-- ACT II -->
+  <section class="act" id="library">
+    <div class="in">
+      <div class="libhead">
+        <div>
+          <div class="eyebrow">Act II</div>
+          <h2>The Library</h2>
+          <p class="note" style="margin-bottom:0">Seven projects and one reading list, landed in no particular order. Pick a sorting method and they will shelve themselves once, then stay put. Open any book to read it; the last one holds my favorite books and writing.</p>
+        </div>
+        <div class="sorter">
+          <div class="seg" role="radiogroup" aria-label="Sorting method">
+            <input type="radio" name="m" id="m-ins" value="insertion" checked><label for="m-ins">Insertion</label>
+            <input type="radio" name="m" id="m-mer" value="merge"><label for="m-mer">Merge</label>
+            <input type="radio" name="m" id="m-qui" value="quick"><label for="m-qui">Quick</label>
+            <input type="radio" name="m" id="m-bub" value="bubble"><label for="m-bub">Bubble</label>
+          </div>
+          <button class="go" id="go" type="button">Shelve by year</button>
+          <div class="tech status" id="status">unsorted · 8 books</div>
+        </div>
+      </div>
+      <div class="shelf" id="shelf"><div class="board"></div><div class="bookend" id="bookend"></div></div>
+      <div class="detail" id="detail" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <!-- CURTAIN CALL -->
+  <div class="in">
+    <section class="curtain" id="curtain">
+      <div>
+        <img class="headshot" src="assets/headshot.jpg" alt="Sophie Shih" width="112" height="112" loading="lazy">
+        <div class="eyebrow">Curtain call</div>
+        <h2>Thank you for <em>staying</em> to the end</h2>
+        <div class="contact">
+          <span>Email</span><a href="mailto:sophie59595@gmail.com">sophie59595@gmail.com</a>
+          <span>LinkedIn</span><a href="https://www.linkedin.com/in/sophie-suzuki-shih-724371316/" target="_blank" rel="noopener">linkedin.com/in/sophie-suzuki-shih</a>
+          <span>GitHub</span><a href="https://github.com/sophiecodie" target="_blank" rel="noopener">github.com/sophiecodie</a>
+          <span>Résumé</span><a href="assets/Sophie_Shih_resume.pdf" target="_blank" rel="noopener">Fall 2026 résumé (PDF)</a>
+        </div>
+      </div>
+      <div id="bow"></div>
+    </section>
+  </div>
+  <div class="in"><footer>© 2026 Sophie Shih · Particles, poses and sorting written by hand. New York · Durham.</footer></div>
+</main>
+
+<script>
+(() => {
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const $ = s => document.querySelector(s);
+const clamp = (v,a=0,b=1) => Math.max(a,Math.min(b,v));
+const lerp = (a,b,t) => a+(b-a)*t;
+const ease = t => t<.5 ? 4*t*t*t : 1-Math.pow(-2*t+2,3)/2;
+const rnd = (a,b) => a+Math.random()*(b-a);
+const gauss = () => (Math.random()+Math.random()+Math.random()-1.5)/1.5;
+
+/* ================= poses (0 head,1 neck,2 lS,3 rS,4 lE,5 rE,6 lW,7 rW,8 lH,9 rH,10 lK,11 rK,12 lA,13 rA) ================= */
+const POSES = {
+  arabesque:[[.46,.12],[.47,.19],[.43,.215],[.52,.21],[.36,.165],[.60,.19],[.28,.10],[.69,.20],[.455,.42],[.505,.42],[.46,.62],[.64,.405],[.465,.86],[.83,.35]],
+  fifth:    [[.50,.13],[.50,.20],[.46,.225],[.54,.225],[.42,.13],[.58,.13],[.48,.05],[.52,.05],[.47,.44],[.53,.44],[.49,.645],[.51,.645],[.50,.86],[.515,.86]],
+  passe:    [[.50,.13],[.50,.20],[.455,.225],[.545,.225],[.38,.255],[.62,.255],[.31,.29],[.69,.29],[.47,.44],[.53,.44],[.485,.645],[.64,.54],[.495,.86],[.505,.63]],
+  bow:      [[.515,.185],[.50,.245],[.46,.265],[.54,.265],[.395,.34],[.605,.34],[.335,.42],[.665,.42],[.47,.47],[.53,.47],[.455,.665],[.565,.645],[.46,.865],[.66,.80]]
+};
+const SEQ = ['arabesque','fifth','passe'];
+const CHAINS = [[6,4,2,1,3,5,7],[12,10,8],[13,11,9],[1,'m'],[8,9],[0,1]];
+const CHAIN_W = [0.25,0.14,0.14,0.13,0.03,0.04];
+function cr(p0,p1,p2,p3,t){const t2=t*t,t3=t2*t;return .5*((2*p1)+(-p0+p2)*t+(2*p0-5*p1+4*p2-p3)*t2+(-p0+3*p1-3*p2+p3)*t3);}
+function chainPoint(pts,t){ // Catmull–Rom through points
+  const n=pts.length-1, s=Math.min(n-1e-6,t*n), i=Math.floor(s), f=s-i;
+  const P=k=>pts[Math.max(0,Math.min(n,k))];
+  return [cr(P(i-1)[0],P(i)[0],P(i+1)[0],P(i+2)[0],f), cr(P(i-1)[1],P(i)[1],P(i+1)[1],P(i+2)[1],f)];
+}
+function poseAt(ms){
+  if (reduce) return {pts:POSES.arabesque, name:'arabesque'};
+  const seg=3.4, tt=(ms/1000)%(seg*SEQ.length), i=Math.floor(tt/seg), f=tt-i*seg;
+  const a=POSES[SEQ[i]], b=POSES[SEQ[(i+1)%SEQ.length]], t=f<2.1?0:ease((f-2.1)/1.3);
+  return {pts:a.map((p,k)=>[lerp(p[0],b[k][0],t),lerp(p[1],b[k][1],t)]), name:t<.5?SEQ[i]:SEQ[(i+1)%SEQ.length]};
+}
+
+/* ================= stage plan geometry (normalised to the .plan box, audience at the bottom) ================= */
+const SEG=[]; // [x1,y1,x2,y2,dashed]
+const L=(a,b,c,d,dash=0)=>SEG.push([a,b,c,d,dash]);
+L(.08,.07,.92,.07); L(.08,.07,.08,.76); L(.92,.07,.92,.76);           // back wall + side walls
+L(0,.76,.08,.76); L(.92,.76,1,.76);                                   // proscenium
+for(let k=0;k<16;k++){const a=k/16,b=(k+1)/16,q=t=>[lerp(.08,.92,t), .76+ .14*Math.sin(Math.PI*t)];const A=q(a),B=q(b);L(A[0],A[1],B[0],B[1]);} // apron
+L(.36,.07,.36,.76,1); L(.64,.07,.64,.76,1); L(.08,.30,.92,.30,1); L(.08,.53,.92,.53,1); // area grid
+L(.08,.76,.92,.76,1);                                                  // plaster line
+[.2,.38,.56].forEach(y=>{L(.015,y,.08,y);L(.92,y,.985,y);});           // wing legs
+L(.47,.415,.53,.415); L(.5,.385,.5,.445);                              // centre mark
+const segLen=SEG.map(s=>Math.hypot(s[2]-s[0],s[3]-s[1])), totLen=segLen.reduce((a,b)=>a+b,0);
+function stagePoint(){
+  let r=Math.random()*totLen,i=0; while(r>segLen[i]){r-=segLen[i];i++;}
+  const s=SEG[i]; let t=r/segLen[i];
+  if(s[4]){ const k=Math.floor(t*14); t=(k+ (t*14-k)*0.5)/14; }
+  return [lerp(s[0],s[2],t)+gauss()*.002, lerp(s[1],s[3],t)+gauss()*.002];
+}
+
+/* ================= particles ================= */
+const cv=$('#fx'), ctx=cv.getContext('2d');
+let W=0,H=0;
+function fit(){const d=Math.min(devicePixelRatio||1,2);W=innerWidth;H=innerHeight;cv.width=W*d;cv.height=H*d;ctx.setTransform(d,0,0,d,0,0);}
+addEventListener('resize',fit); fit();
+const N = innerWidth<700 ? 950 : 1500;
+const COLS=['58,40,62','176,96,122','168,131,74'];
+const P=[];
+for(let i=0;i<N;i++){
+  const r=Math.random(); let zone, acc=0;
+  // dancer zones: chains, skirt, head
+  if(r<0.74){ let q=r/0.74; zone='c'; let ci=0; for(;ci<CHAIN_W.length;ci++){acc+=CHAIN_W[ci]/0.73; if(q<acc)break;} P.push({zone,ci:Math.min(ci,5)}); }
+  else if(r<0.93) P.push({zone:'skirt'}); else P.push({zone:'head'});
+  const p=P[i];
+  Object.assign(p,{t:Math.random(),o:gauss(),a:Math.random()*6.283,u:Math.random()*2-1,v:Math.sqrt(Math.random()),
+    hue: Math.random()<.7?0:(Math.random()<.6?1:2), r:rnd(.7,1.9), dir:Math.random()*6.283, sp:rnd(.35,1),
+    st:stagePoint(), pg:i%14, per:Math.random(), inner:Math.random()<.25, iu:Math.random(), iv:Math.random(), bk:i%8, dx:0,dy:0, x:0,y:0});
+}
+
+function dancerTarget(p,pts,box,ms){
+  const S=box.s, X=v=>box.x+v*S, Y=v=>box.y+v*S;
+  const mid=[(pts[8][0]+pts[9][0])/2,(pts[8][1]+pts[9][1])/2];
+  if(p.zone==='head'){
+    const bun = p.a<1.2; const c = bun ? [pts[0][0]-.012, pts[0][1]-.035] : pts[0]; const rr = bun?.014:.026;
+    const d=Math.sqrt(Math.abs(p.o))*rr; return [X(c[0]+Math.cos(p.a*5)*d), Y(c[1]+Math.sin(p.a*5)*d*1.1)];
+  }
+  if(p.zone==='skirt'){
+    const nx=pts[1][0]-mid[0], ny=pts[1][1]-mid[1], nl=Math.hypot(nx,ny)||1, dn=[-nx/nl,-ny/nl], ac=[-dn[1],dn[0]];
+    const v=p.v, hw=lerp(.04,.125,v)*(1+Math.sin(p.u*9+ms*.002)*.04*v), len=.125;
+    const ruff = v>.92 ? Math.sin(p.u*28)*.008 : 0;
+    const off=p.u*hw, dd=-.015+v*len+ruff;
+    return [X(mid[0]+dn[0]*dd+ac[0]*off), Y(mid[1]+dn[1]*dd+ac[1]*off)];
+  }
+  const ch=CHAINS[p.ci].map(k=>k==='m'?mid:pts[k]);
+  const q=chainPoint(ch,p.t), q2=chainPoint(ch,Math.min(1,p.t+.01));
+  const tx=q2[0]-q[0], ty=q2[1]-q[1], tl=Math.hypot(tx,ty)||1;
+  const thick = p.ci===3 ? .022 : (p.ci===1||p.ci===2) ? .009*(1.3-p.t*.6) : .006;
+  const off=p.o*thick + Math.sin(ms*.0018+p.a)*.0015;
+  return [X(q[0]-ty/tl*off), Y(q[1]+tx/tl*off)];
+}
+function boxOf(el){const r=el.getBoundingClientRect(), s=Math.min(r.width,r.height);return {x:r.left+(r.width-s)/2,y:r.top+(r.height-s)/2,s};}
+
+/* falling sheets */
+const SHEETS=Array.from({length:14},(_,i)=>({x0:(i+.5)/14+rnd(-.03,.03),sp:rnd(.05,.11),ph:Math.random(),sz:rnd(.8,1.25),sw:rnd(.4,1),spin:rnd(.5,1.4),i}));
+let sheetT=[];
+// final resting place of each sheet on the contents stack; the last to arrive lies flat on top
+const LAND=SHEETS.map((_,i)=>{ const rank=(i*5)%14; const top=rank===13, second=rank===12, third=rank===11;
+  return {d:rank/13, deg: top?0: second?-2.5: third?2: ((i*37)%9-4)*.9, ox: top?0: second?6: third?-8: ((i*53)%13-6)*1.6, oy: top?0: second?8: third?12: ((i*29)%11-5)*1.6}; });
+function mkSheet(x,y,rot,flip,w,h,extra){ const c=Math.cos(rot), sn=Math.sin(rot);
+  return {w,h,flip,...extra,map:(lx,ly)=>{lx*=flip;return [x+lx*c-ly*sn, y+lx*sn+ly*c];}}; }
+function computeSheets(sec, gather, r){
+  const base=Math.min(W,1200)/1200, w0=Math.max(34,64*base);
+  sheetT=SHEETS.map((s,i)=>{
+    const fall=(s.ph + sec*s.sp)%1; let y=-H*.15 + fall*H*1.3, x=s.x0*W + Math.sin(sec*.7*s.sw+s.i)*W*.03;
+    let rot=Math.sin(sec*.55+s.i*1.7)*.7, flip=Math.cos(sec*s.spin+s.i)*.85+(Math.cos(sec*s.spin+s.i)>=0?.15:-.15);
+    let w=w0*s.sz, h=w*1.3, ei=0;
+    if(gather>0 && r){
+      const L=LAND[i]; ei=ease(clamp((gather - L.d*.55)/.45));
+      const tx=r.left+r.width/2+L.ox, ty=r.top+r.height/2+L.oy;
+      x=lerp(x,tx,ei); y=lerp(y,ty,ei) - Math.sin(Math.PI*ei)*H*.14;
+      rot=lerp(rot,L.deg*Math.PI/180,ei) + Math.sin(Math.PI*ei)*.9*(i%2?1:-1);
+      flip=lerp(flip,1,ei); w=lerp(w,r.width,ei); h=lerp(h,r.height,ei);
+    }
+    return mkSheet(x,y,rot,flip,w,h,{ei,d:LAND[i].d});
+  });
+}
+function rectPerimeter(per,w,h){const Lp=2*(w+h);let d=per*Lp;if(d<w)return[d,0];d-=w;if(d<h)return[w,d];d-=h;if(d<w)return[w-d,h];d-=w;return[0,h-d];}
+function onSheet(p,s,inner=p.inner){
+  let lx,ly; if(inner){lx=(p.iu-.5)*s.w*.8; ly=(p.iv-.5)*s.h*.8;} else {const q=rectPerimeter(p.per,s.w,s.h); lx=q[0]-s.w/2; ly=q[1]-s.h/2;}
+  return s.map(lx,ly);
+}
+function sheetTarget(p){ return onSheet(p, sheetT[p.pg % sheetT.length]); }
+/* contents page: particles stay on the edges of the stacked sheets */
+function tocTarget(p,r){
+  const L=LAND[p.pg%14]; return onSheet(p, mkSheet(r.left+r.width/2+L.ox, r.top+r.height/2+L.oy, L.deg*Math.PI/180, 1, r.width, r.height), false);
+}
+
+/* ================= scroll → act value s (0 dancer, 1 stage, 2 pages, 3 shelf, 4 bow) ================= */
+const secToc=$('#contents'), secExp=$('#experience'), secInt=$('#interlude'), secLib=$('#library'), secCur=$('#curtain');
+function actValue(){
+  const t=(el,start,span)=>clamp((H*start - el.getBoundingClientRect().top)/(H*span));
+  return t(secExp,.92,.75) + t(secInt,.85,.55) + t(secToc,.95,.8) + t(secLib,.75,.5) + t(secCur,.95,.55);
+}
+
+/* mouse repel */
+let mx=-999,my=-999;
+addEventListener('pointermove',e=>{mx=e.clientX;my=e.clientY;}); addEventListener('pointerleave',()=>{mx=my=-999;});
+
+let bookRects=[]; const ALPHA=[.82,.78,.55,.8,.85,.82];
+const FOIL=['250,240,218','236,208,150','214,183,120'];
+let hudTick=0;
+function frame(ms){
+  const sec=reduce?3:ms/1000, s=actValue();
+  const k=Math.min(4,Math.floor(s)), f=s-k, e=reduce?Math.round(f):ease(f);
+  ctx.clearRect(0,0,W,H);
+  const need=n=>k===n||k+1===n;
+  const hero = need(0)?{...poseAt(ms),box:boxOf($('#fig'))}:null;
+  const bow  = need(5)?{pts:POSES.bow,box:boxOf($('#bow'))}:null;
+  const plan = need(1)?$('#plan').getBoundingClientRect():null;
+  const toc = need(3)?$('#toc').getBoundingClientRect():null;
+  if(need(2)) computeSheets(sec, k===2?e:0, toc);
+  $('#toc').style.opacity = s>=3 ? 1 : clamp((s-2.86)/.12);
+  if(need(4)) bookRects=books.map(b=>b.el.getBoundingClientRect());
+  const tgt=(n,p)=>{
+    if(n===0) return dancerTarget(p,hero.pts,hero.box,ms);
+    if(n===1) return [plan.left+p.st[0]*plan.width, plan.top+p.st[1]*plan.height];
+    if(n===2) return sheetTarget(p);
+    if(n===3) return k===2 ? sheetTarget(p) : tocTarget(p,toc);
+    if(n===4){ const r=bookRects[p.bk]; if(!r) return [W/2,H]; if(p.a<3.6) return [r.left+r.width*(.12+p.iu*.76), r.top+r.height*(.04+p.iv*.92)]; const q=rectPerimeter(p.per,r.width,r.height); return [r.left+q[0], r.top+q[1]]; }
+    return dancerTarget(p,bow.pts,bow.box,ms);
+  };
+  // paper sheets under the particles (drawn in arrival order so later sheets land on top)
+  if(need(2)){
+    const a = s<2 ? clamp((s-1.55)*2.2) : clamp((3-s)/.12);
+    if(a>0.01){
+      const order=[...sheetT].sort((x,y)=>x.d-y.d);
+      for(const sh of order){
+        const c=[[-.5,-.5],[.5,-.5],[.5,.5],[-.5,.5]].map(([u,v])=>sh.map(u*sh.w,v*sh.h));
+        ctx.save(); ctx.shadowColor=`rgba(70,45,30,${.16*a})`; ctx.shadowBlur=10+sh.ei*18; ctx.shadowOffsetY=5+sh.ei*8;
+        ctx.fillStyle=`rgba(255,252,246,${a})`; ctx.beginPath(); c.forEach((q,j)=>j?ctx.lineTo(q[0],q[1]):ctx.moveTo(q[0],q[1])); ctx.closePath(); ctx.fill(); ctx.restore();
+        ctx.strokeStyle=`rgba(58,40,62,${.18*a})`; ctx.lineWidth=1; ctx.beginPath();
+        const rows = sh.ei>.5 ? 12 : 5;
+        for(let r=0;r<rows;r++){ const y=(-.32+r*(.64/(rows-1)))*sh.h, a1=sh.map(-.32*sh.w,y), a2=sh.map((r===rows-1?.05:.32)*sh.w,y); ctx.moveTo(a1[0],a1[1]); ctx.lineTo(a2[0],a2[1]); }
+        ctx.stroke();
+      }
+    }
+  }
+  // contents → library: the stack peels apart and each sheet tumbles down into a book slot
+  const peel = k===3 && f>0.02;
+  if(k===3){
+    $('#toc').style.opacity = 1-clamp((f-.02)/.12);
+    const ba2=clamp((s-3.78)/.2);
+    const items=books.map((b,j)=>{ const slot=order.indexOf(j), L=LAND[(j*5)%14===13?j:j], d=slot/(BOOKS.length-1)*.45;
+      const ei=ease(clamp((f-d)/.55)); return {j,ei,slot,L:LAND[j]}; }).sort((a,b)=>(a.ei>=1)-(b.ei>=1)||b.slot-a.slot);
+    for(const it of items){
+      const r=bookRects[it.j]; if(!r||!toc) continue;
+      const L=it.L, ei=it.ei;
+      const sx=toc.left+toc.width/2+L.ox, sy=toc.top+toc.height/2+L.oy;
+      const x=lerp(sx,r.left+r.width/2,ei)+Math.sin(ei*Math.PI*2.2+it.j)*W*.06*(1-ei);
+      const y=lerp(sy,r.top+r.height/2,ei)-Math.sin(Math.PI*ei)*H*.08;
+      const rot=lerp(L.deg*Math.PI/180,0,ei)+Math.sin(ei*Math.PI*3+it.j)*.9*(1-ei)*Math.min(1,ei*4);
+      const flip=Math.cos(ei*Math.PI*2*(it.j%2?1:-1))*(1-ei)+ei;
+      const w=lerp(toc.width,r.width,ei), h=lerp(toc.height,r.height,ei);
+      const sh=mkSheet(x,y,rot,flip<0?Math.min(-.12,flip):Math.max(.12,flip),w,h);
+      const hex=BOOKS[it.j][2], rr=parseInt(hex.slice(1,3),16), gg=parseInt(hex.slice(3,5),16), bb=parseInt(hex.slice(5,7),16);
+      const m=clamp((ei-.55)/.4), a=1-ba2;
+      if(a<=0.01) continue;
+      const c=[[-.5,-.5],[.5,-.5],[.5,.5],[-.5,.5]].map(([u,v])=>sh.map(u*w,v*h));
+      ctx.save(); ctx.shadowColor=`rgba(70,45,30,${.22*a})`; ctx.shadowBlur=18; ctx.shadowOffsetY=10;
+      ctx.fillStyle=`rgba(${lerp(255,rr,m)|0},${lerp(252,gg,m)|0},${lerp(246,bb,m)|0},${a})`;
+      ctx.beginPath(); c.forEach((q,i)=>i?ctx.lineTo(q[0],q[1]):ctx.moveTo(q[0],q[1])); ctx.closePath(); ctx.fill(); ctx.restore();
+      if(m<.6){ ctx.strokeStyle=`rgba(58,40,62,${.16*a*(1-m/.6)})`; ctx.lineWidth=1; ctx.beginPath();
+        for(let q=0;q<10;q++){ const yy=(-.34+q*.075)*h, a1=sh.map(-.34*w,yy), a2=sh.map((q===9?.0:.34)*w,yy); ctx.moveTo(a1[0],a1[1]); ctx.lineTo(a2[0],a2[1]); } ctx.stroke(); }
+    }
+  }
+  const foil = (s>3.5 && s<4.55); cv.style.zIndex = (foil||peel) ? 2 : 0;
+  const alpha=lerp(ALPHA[k],ALPHA[k+1],e), burstAmp=(reduce||k===2||k===3)?0:Math.sin(Math.PI*e)*Math.min(W,H)*.32;
+  for(const p of P){
+    const A=tgt(k,p), B=e>0?tgt(k+1,p):A;
+    let x,y;
+    if(k===3){ // page-shaped confetti raining down onto the shelf, staggered per particle
+      const ep=ease(clamp((f-p.iu*.4)/.6)), fl=Math.sin(Math.PI*ep);
+      x=lerp(A[0],B[0],ep)+Math.sin(ms*.003+p.a*5)*28*fl; y=lerp(A[1],B[1],ep)-fl*H*.06;
+      if(fl>.02 && x>-5 && y>-5 && x<W+5 && y<H+5){
+        const rt=p.a+ms*.004*p.sp, sz=2.2+p.r*1.6, sq=Math.cos(ms*.005*p.sp+p.a);
+        ctx.save(); ctx.translate(x,y); ctx.rotate(rt); ctx.scale(Math.max(.2,Math.abs(sq)),1);
+        ctx.fillStyle = ep>.6 ? `rgba(${FOIL[p.hue]},.9)` : `rgba(255,252,246,.95)`; ctx.fillRect(-sz/2,-sz*.65,sz,sz*1.3);
+        ctx.strokeStyle=`rgba(58,40,62,${.35*(1-ep)})`; ctx.lineWidth=.6; ctx.strokeRect(-sz/2,-sz*.65,sz,sz*1.3);
+        ctx.restore(); continue;
+      }
+    } else { x=lerp(A[0],B[0],e)+Math.cos(p.dir)*burstAmp*p.sp; y=lerp(A[1],B[1],e)+Math.sin(p.dir)*burstAmp*p.sp; }
+    const ddx=x+p.dx-mx, ddy=y+p.dy-my, d2=ddx*ddx+ddy*ddy;
+    if(d2<8100 && !reduce){const d=Math.sqrt(d2)||1,fz=(90-d)/90*3;p.dx+=ddx/d*fz;p.dy+=ddy/d*fz;}
+    p.dx*=.9; p.dy*=.9; x+=p.dx; y+=p.dy;
+    if(x<-5||y<-5||x>W+5||y>H+5) continue;
+    if(foil){ const tw=reduce?1:.55+.45*Math.sin(ms*.004+p.a*7); ctx.fillStyle=`rgba(${FOIL[p.hue]},${alpha*tw})`; ctx.fillRect(x,y,p.r*1.6,p.r*1.6); }
+    else { ctx.fillStyle=`rgba(${COLS[p.hue]},${alpha})`; ctx.fillRect(x,y,p.r,p.r); }
+  }
+  // faint keypoints: the "tracked" layer
+  const kp=(pose,a)=>{ if(a<=0.01)return; const {box,pts}=pose, X=q=>[box.x+q[0]*box.s, box.y+q[1]*box.s];
+    ctx.strokeStyle=`rgba(176,96,122,${.28*a})`; ctx.lineWidth=.8; ctx.beginPath();
+    [[1,2],[1,3],[2,4],[4,6],[3,5],[5,7],[8,10],[10,12],[9,11],[11,13],[2,8],[3,9],[8,9]].forEach(([i,j])=>{const A=X(pts[i]),B=X(pts[j]);ctx.moveTo(A[0],A[1]);ctx.lineTo(B[0],B[1]);}); ctx.stroke();
+    pts.forEach((q,i)=>{ if(!i)return; const [x,y]=X(q); ctx.fillStyle=`rgba(176,96,122,${.8*a})`; ctx.beginPath(); ctx.arc(x,y,2.2,0,7); ctx.fill(); });
+  };
+  if(hero){ kp(hero, clamp(1-s*3)); if(++hudTick%12===0) $('#hud').innerHTML=`pose · ${hero.name}<br>confidence 0.9${(ms/900|0)%4+5}`; }
+  if(bow) kp(bow, clamp((s-4.75)*4));
+  // books fade in as their outlines fill
+  const ba=clamp((s-3.78)/.2); if(ba!==lastBA){ lastBA=ba; books.forEach(b=>b.el.style.opacity=ba); $('#bookend').style.opacity=ba; }
+  if(!reduce) requestAnimationFrame(frame);
+}
+let lastBA=-1;
+
+/* ================= Act I: hover links list ↔ spike marks ================= */
+const lis=[...document.querySelectorAll('#exp li')], spikes=[...document.querySelectorAll('.spike')];
+const lightExp=i=>{lis.forEach((l,j)=>l.classList.toggle('on',j===i));spikes.forEach((sp,j)=>sp.classList.toggle('on',j===i));};
+lis.forEach((l,i)=>{l.addEventListener('pointerenter',()=>lightExp(i));});
+spikes.forEach((sp,i)=>{sp.addEventListener('pointerenter',()=>lightExp(i));});
+lightExp(0);
+
+/* ================= Act II: library ================= */
+// ---- Sophie's projects: edit here. The last entry is the reading-and-writing book. ----
+const PROJECTS=[
+  {id:'college-app-atlas', spine:'College App Atlas', title:'College App Atlas', year:'2026', sort:2026.04, color:'#5b3a52',
+   tech:'web · Next.js, TypeScript, PostgreSQL, Claude & OpenAI APIs', ctx:'Personal project · launched April 2026',
+   summary:'A full-stack web app where students brainstorm, draft and track their college applications and essays in one cozy place.',
+   hl:['An “Idea Garden” where students plant memories and quirks, then grow them into their own essay threads','A 5,700+ college database (IPEDS + College Scorecard) with prompts verified word-for-word against official sites','AI feedback that asks questions instead of rewriting you, plus AI-assisted research tailored to each student'],
+   img:'assets/projects/college-app-atlas.svg',
+   links:[['Live site','https://collegeappatlas.sophieshih.com'],['Source','https://github.com/sophiecodie/College-App-Atlas']]},
+  {id:'purchase-intent', spine:'Shopping Intent ML', title:'Online Purchase Intent Prediction', year:'2026', sort:2026.09, color:'#2f3a56',
+   tech:'ml · Python, scikit-learn, pandas', ctx:'Catalyst Tech Society · team of 4 · Fall 2026',
+   summary:'A Random Forest classifier that predicts whether an online shopping session ends in a purchase, trained on 12,000+ sessions.',
+   hl:['0.92 ROC-AUC and 90% accuracy','A leakage-safe pipeline: deduplication, one-hot encoding and a stratified 80/20 split','Precision–recall trade-offs analyzed under heavy class imbalance (15.6% buyers)'],
+   links:[]},
+  {id:'new-york-census', spine:'NY Census Line', title:'The New York Census Line', year:'2026', sort:2026.10, color:'#8c3f45',
+   tech:'data · Python, JavaScript, D3, Census API, NYC Open Data', ctx:'Personal project · data visualization',
+   summary:'New York City told through Census data on a subway map: each line is a topic, and each stop is one of the city’s 55 neighborhoods.',
+   hl:['Housing, immigration and economy lines, ending at a last stop of my own photos of the city','2020–2024 Census, NYC Open Data and BLS data, inflation-adjusted, with margins of error kept','Findings computed from the data, like rent burden vs. income (r = −0.79)'],
+   img:'assets/projects/new-york-census.jpg',
+   links:[['Live site','https://new-york-census.sophieshih.com'],['Source','https://github.com/sophiecodie/New-York-Census']]},
+  {id:'folio', spine:'Folio', title:'Folio', year:'2026', sort:2026.11, color:'#b08a4f',
+   tech:'web · Next.js, TypeScript, Tailwind', ctx:'Personal project',
+   summary:'Pinterest for all kinds of literature: news from across the political spectrum, fresh science preprints and pop culture in one visual feed.',
+   hl:['Headlines from 12 outlets, each card marked with where its outlet leans','New preprints straight from the arXiv, medRxiv and bioRxiv APIs','A “Brain Bulletin” board to pin stories, jot notes and link ideas together'],
+   links:[['Live site','https://folio-ivory-mu.vercel.app'],['Source','https://github.com/sophiecodie/folio']]},
+  {id:'agent00hl7', spine:'Agent00HL7', title:'Agent00HL7', year:'2024', sort:2024.06, color:'#3f5246',
+   tech:'ai · LLM agents, Reflexion, ICD-10', ctx:'SIIM Hackathon · 2nd place · with Alina Yang and Estella Yee',
+   summary:'LLM agents rewrite radiology reports as patient-friendly letters, then check each letter against the original report’s ICD-10 codes.',
+   hl:['A self-refining agent loop based on the Reflexion framework, checked for accuracy and Flesch-Kincaid readability','94.94% ICD-10 verification accuracy vs. 68.23% with zero-shot prompting','81.25% of final letters needed no corrections, vs. 25% of zero-shot letters'],
+   img:'assets/projects/agent00hl7.jpg',
+   links:[['Slides','https://docs.google.com/presentation/d/1NYz9PMY-VRUH5TXXdrn-F39_1K8a4C-nPN4Km93GL4g/edit?usp=sharing']]},
+  {id:'dream-team', spine:'Dream Team', title:'Dream Team', year:'2025', sort:2025.06, color:'#9c5a43',
+   tech:'ai · LLM agents, Model Context Protocol, DICOM MCP', ctx:'SIIM Hackathon · 2nd place · with Joey Hentel and Kurt Teichman',
+   summary:'A team of LLM agents that reads a radiology report, finds the right specialist, and books the consultation.',
+   hl:['Diagnosis, referral, secretary and research agents covering the whole journey from report to booked consult','Imaging access through DICOM MCP, so agents can query studies and analyze clinical metadata','Built for the 100 million+ Americans who face barriers to reaching a specialist'],
+   img:'assets/projects/dream-team.jpg',
+   links:[['dreamteam.health','https://dreamteam.health'],['Slides','https://docs.google.com/presentation/d/1HsQiOYT7-UfFO6YSU_EJYOC7zDnYghLq0JbolNES2Q8/edit?usp=sharing']]},
+  {id:'neurobiome', spine:'Neurobiome', title:'Neurobiome Navigator', year:'2025', sort:2025.07, color:'#4f5d6b',
+   tech:'ai · Streamlit, Pydantic AI, LangChain, MINERVA', ctx:'Mass General Brigham · research internship',
+   summary:'An app that teaches patients and students how the gut and oral microbiome relate to Parkinson’s disease.',
+   hl:['An AI agent that answers questions using the MINERVA knowledge graph (66,000+ microbe–disease associations)','Semantic search over selected research papers','Interactive visualizations of microbe and food data that users can sort and view their own way'],
+   img:'assets/projects/neurobiome.jpg',
+   links:[['Thesis (medRxiv)','https://www.medrxiv.org/content/10.1101/2025.09.18.25335721v1']]},
+  {id:'reading', spine:'Reading & Writing', title:'Reading & Writing', year:'∞', sort:9999, last:true, color:'#c9a3a6',
+   tech:'shelf · favorite books and written works', summary:''},
+];
+const COVERS=[
+  ['Jane Eyre','Charlotte Brontë','jane-eyre'],['The Covenant of Water','Abraham Verghese','covenant-of-water'],
+  ['The Unbearable Lightness of Being','Milan Kundera','unbearable-lightness'],['My Brilliant Friend','Elena Ferrante','my-brilliant-friend'],
+  ['Identity','Milan Kundera','identity'],['The Nightingale','Kristin Hannah','nightingale'],['Pachinko','Min Jin Lee','pachinko'],
+  ['The Bluest Eye','Toni Morrison','bluest-eye'],['The Story of a New Name','Elena Ferrante','story-of-a-new-name'],
+];
+const WRITING=[
+  ['A guide to reporting sexual assault and finding support at Duke and in Durham','The Duke Chronicle · Oct 2026','https://dukechronicle.com/article/duke-university-chronicle-guide-sexual-harm-violence-report-assault-support-care-durham-cornell-20261020'],
+  ['Using AI to translate complex biomedical findings into accessible educational tools','Thesis · medRxiv · 2025','https://www.medrxiv.org/content/10.1101/2025.09.18.25335721v1'],
+];
+const BOOKS=PROJECTS.map(p=>[p.spine,p.year,p.color,p.tech,p.summary]);
+const escH=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function detailHTML(i){
+  const p=PROJECTS[i], num=`<div class="num">${String(i+1).padStart(2,'0')}</div>`;
+  if(p.last){
+    return `${num}<div><h3>${p.title}</h3><div class="meta">the last book · open shelf</div>
+      <div class="reads">
+        <div><h4>Favorite books</h4><div class="minishelf">${COVERS.map(([t,a,f])=>`<a href="https://www.google.com/search?tbm=bks&q=${encodeURIComponent(t+' '+a)}" target="_blank" rel="noopener" title="${escH(t)} · ${escH(a)}"><img src="assets/covers/${f}.jpg" alt="${escH(t)} by ${escH(a)}" loading="lazy"></a>`).join('')}</div></div>
+        <div><h4>Written works</h4><ul class="works">${WRITING.map(([t,m,h])=>`<li><a href="${h}" target="_blank" rel="noopener"><span class="wt">${escH(t)} ↗</span><span class="wm">${escH(m)}</span></a></li>`).join('')}</ul></div>
+      </div></div>`;
+  }
+  const links=p.links.length?`<div class="links">${p.links.map(([l,h])=>`<a href="${h}" target="_blank" rel="noopener">${escH(l)} ↗</a>`).join('')}</div>`:'';
+  const text=`<div><h3>${escH(p.title)}</h3><div class="meta">${p.year} · ${escH(p.tech)}</div>${p.ctx?`<div class="ctx">${escH(p.ctx)}</div>`:''}<p>${escH(p.summary)}</p><ul class="hl">${p.hl.map(h=>`<li>${escH(h)}</li>`).join('')}</ul>${links}</div>`;
+  const fig=p.img?`<figure><img src="${p.img}" alt="${escH(p.title)}" loading="lazy"></figure>`:'';
+  return `${num}<div class="body${p.img?'':' noimg'}">${text}${fig}</div>`;
+}
+const DIMS=[[48,200],[44,176],[52,212],[40,184],[50,196],[46,170],[42,188],[60,222]];
+const LANDED=[3,7,0,5,2,6,1,4]; // where the pages happened to fall
+const TILT=[-4,3,-2,6,-5,2,-3,4];
+const shelfEl=$('#shelf'), bookend=$('#bookend');
+const books=BOOKS.map((b,i)=>{
+  const el=document.createElement('button'); el.type='button'; el.className='book';
+  const light=b[2]==='#d9c7a8'||b[2]==='#c9a3a6';
+  el.style.background=b[2]; el.style.color=light?'#3a2b30':'#f5ead6'; el.style.setProperty('--foil',light?'#8a6a3a':'#d4b77c');
+  el.innerHTML=`<span class="band"></span><span class="t">${b[0]}</span><span class="y">${b[1]}</span>`;
+  el.setAttribute('aria-label',`${b[0]}, ${b[1]}`); el.style.opacity=0;
+  el.addEventListener('click',()=>select(i)); shelfEl.appendChild(el); return {el,i};
+});
+let order=[...LANDED], sorted=false, sel=0, hi=[];
+function layout(){
+  const Wc=shelfEl.clientWidth, gap=4, raw=order.reduce((a,i)=>a+DIMS[i][0]+gap,0)+30;
+  const sc=Math.min(1.25,Wc/raw), maxH=Math.max(...DIMS.map(d=>d[1]))*sc;
+  shelfEl.style.height=(maxH+40)+'px';
+  let x=Math.max(0,(Wc-raw*sc)/2);
+  order.forEach((bi,slot)=>{ const el=books[bi].el, [w,h]=DIMS[bi];
+    el.style.width=w*sc+'px'; el.style.height=h*sc+'px'; el.style.left=x+'px'; el.style.setProperty('--fs',Math.max(9,Math.min(15,w*sc*.32))+'px'); el.querySelector('.y').textContent = (w*sc<34 && /^\d{4}$/.test(BOOKS[bi][1])) ? '’'+String(BOOKS[bi][1]).slice(2) : BOOKS[bi][1];
+    el.style.transform = sorted ? 'none' : `rotate(${TILT[slot]}deg) translateY(${Math.abs(TILT[slot])*.6}px)`;
+    el.classList.toggle('hi',hi.includes(bi)); el.classList.toggle('sel',bi===sel && sorted);
+    x+=(w+gap)*sc; });
+  bookend.style.left=x+'px'; bookend.style.height=70*sc+'px';
+}
+new ResizeObserver(layout).observe(shelfEl);
+function select(i){
+  sel=i; $('#detail').innerHTML=detailHTML(i); layout();
+}
+const key=i=>PROJECTS[i].sort*100+i;
+function framesFor(m,start){
+  const a=[...start], out=[]; let c=0;
+  const cmp=(x,y)=>{c++; out.push({o:[...a],hi:[a[x],a[y]]}); return key(a[x])>key(a[y]);};
+  const sw=(x,y)=>{[a[x],a[y]]=[a[y],a[x]]; out.push({o:[...a],hi:[a[x],a[y]]});};
+  if(m==='insertion'){ for(let i=1;i<a.length;i++){let j=i;while(j>0&&cmp(j-1,j)){sw(j-1,j);j--;}} }
+  else if(m==='bubble'){ for(let n=a.length;n>1;n--){let swapped=false;for(let j=0;j<n-1;j++){if(cmp(j,j+1)){sw(j,j+1);swapped=true;}} if(!swapped)break;} }
+  else if(m==='quick'){ const q=(lo,hi)=>{ if(lo>=hi)return; let s=lo; for(let j=lo;j<hi;j++){ if(!cmp(j,hi)){ if(s!==j) sw(s,j); s++; } } if(s!==hi) sw(s,hi); q(lo,s-1); q(s+1,hi); }; q(0,a.length-1); }
+  else { const ms=(lo,hi)=>{ if(lo>=hi)return; const mid=(lo+hi)>>1; ms(lo,mid); ms(mid+1,hi); let i=lo,m2=mid,j=mid+1;
+      while(i<=m2&&j<=hi){ if(!cmp(i,j)) i++; else { const v=a[j]; a.splice(j,1); a.splice(i,0,v); out.push({o:[...a],hi:[v]}); i++; m2++; j++; } } }; ms(0,a.length-1); }
+  return {frames:out, comps:c};
+}
+let running=false;
+$('#go').addEventListener('click',()=>{
+  if(running) return; running=true; $('#go').disabled=true;
+  const m=document.querySelector('input[name=m]:checked').value;
+  order=[...LANDED]; sorted=true; hi=[]; layout(); // straighten the books first
+  const {frames,comps}=framesFor(m,order), step=reduce?0:Math.max(70,Math.min(300,3600/frames.length));
+  $('#status').textContent=`${m} sort · running…`;
+  let k=0; const t0=performance.now();
+  const tick=()=>{
+    if(k>=frames.length || reduce){ order=[...LANDED].sort((x,y)=>key(x)-key(y)); hi=[]; layout(); running=false; $('#go').disabled=false; $('#go').textContent='Shelve again';
+      $('#status').textContent=`${m} sort · ${comps} comparisons · ${((performance.now()-t0)/1000).toFixed(1)} s · at rest`; return; }
+    const fr=frames[k++]; order=fr.o; hi=fr.hi; layout(); setTimeout(tick,step);
+  };
+  setTimeout(tick, reduce?0:500);
+});
+const tocList=$('#tocList');
+[...BOOKS.keys()].sort((a,b)=>(PROJECTS[b].last?-1:PROJECTS[a].last?1:PROJECTS[b].sort-PROJECTS[a].sort)||a-b).forEach((i,n)=>{
+  const b=BOOKS[i], li=document.createElement('li');
+  li.innerHTML=`<a href="#library"><span class="n">${String(n+1).padStart(2,'0')}</span><span class="tt">${b[0]}<small>${b[3].split(' · ')[0]}</small></span><span class="lead"></span><span class="yr">${b[1]}</span></a>`;
+  li.querySelector('a').addEventListener('click',()=>select(i)); tocList.appendChild(li);
+});
+// deep links like #book-neurobiome (used by the experience list)
+function openHash(){ const m=location.hash.match(/^#book-(.+)$/); if(!m) return; const i=PROJECTS.findIndex(p=>p.id===m[1]); if(i<0) return;
+  select(i); $('#library').scrollIntoView({behavior:reduce?'auto':'smooth'}); }
+addEventListener('hashchange',openHash);
+document.querySelectorAll('ol.exp a[href^="#book-"]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault(); history.replaceState(null,'',a.getAttribute('href')); openHash();}));
+lis.forEach((l,i)=>l.addEventListener('click',()=>lightExp(i)));
+select(0); layout(); if(location.hash.startsWith('#book-')) setTimeout(openHash,60);
+requestAnimationFrame(frame);
+if(reduce){ addEventListener('scroll',()=>requestAnimationFrame(frame),{passive:true}); addEventListener('resize',()=>requestAnimationFrame(frame)); }
+})();
+</script>
+</body>
+</html>
