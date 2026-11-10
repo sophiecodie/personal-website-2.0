@@ -114,7 +114,7 @@ ol.exp .meta{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:
 .book::before{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(90deg,rgba(0,0,0,.22),rgba(255,255,255,.10) 22%,rgba(255,255,255,0) 45%,rgba(0,0,0,.16));pointer-events:none}
 .book .band{width:70%;height:7px;border-block:1px solid var(--foil);margin-top:12px;flex:none}
 .book .band.b{margin:0 0 4px}
-.book .t{writing-mode:vertical-rl;transform:rotate(180deg);font-size:var(--fs,14px);letter-spacing:.06em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-height:70%;font-variant:small-caps}
+.book .t{writing-mode:vertical-rl;transform:rotate(180deg);font-size:var(--fs,14px);font-weight:600;letter-spacing:.04em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-height:70%;font-variant:small-caps;text-shadow:0 1px 1px rgba(0,0,0,.18)}
 .book .y{font-family:var(--body);font-size:10px;letter-spacing:.1em;color:var(--foil);margin-bottom:8px}
 .book.hi{box-shadow:0 0 0 2px var(--cream),0 0 0 3.5px var(--rose)}
 .book.sel{box-shadow:0 0 0 2px var(--cream),0 0 0 3px var(--gold),0 14px 18px -12px rgba(40,25,15,.5)}

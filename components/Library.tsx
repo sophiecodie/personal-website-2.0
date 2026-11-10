@@ -134,7 +134,7 @@ export default function Library() {
             const short = w * sc < 34 && /^\d{4}$/.test(p.year);
             const style = {
               background: p.color, color: light ? "#3a2b30" : "#f5ead6",
-              "--foil": light ? "#8a6a3a" : "#d4b77c", "--fs": `${Math.max(9, Math.min(15, w * sc * 0.32))}px`,
+              "--foil": light ? "#8a6a3a" : "#d4b77c", "--fs": `${Math.max(12, Math.min(18, w * sc * 0.38))}px`,
               width: w * sc, height: h * sc, left,
               transform: sorted ? "none" : `rotate(${tilt}deg) translateY(${Math.abs(tilt) * 0.6}px)`,
             } as CSSProperties;
