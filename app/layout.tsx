@@ -1,8 +1,8 @@
 import type { Metadata, Viewport } from "next";
-import { Bodoni_Moda, Jost, IBM_Plex_Mono } from "next/font/google";
+import { EB_Garamond, Jost, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 
-const display = Bodoni_Moda({ subsets: ["latin"], style: ["normal", "italic"], weight: ["400", "600"], variable: "--font-display", display: "swap" });
+const display = EB_Garamond({ subsets: ["latin"], weight: ["400", "500", "600"], variable: "--font-display", display: "swap" });
 const body = Jost({ subsets: ["latin"], weight: ["300", "400", "500"], variable: "--font-body", display: "swap" });
 const mono = IBM_Plex_Mono({ subsets: ["latin"], weight: ["400"], variable: "--font-mono", display: "swap" });
 

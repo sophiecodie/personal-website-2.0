@@ -9,7 +9,7 @@ export default function Contents() {
     <section className="contents in" id="contents">
       <div className="toc" id="toc">
         <div className="eyebrow">Contents</div>
-        <h2>Projects, at a glance</h2>
+        <h2>Projects</h2>
         <ol>
           {list.map(({ p }, n) => (
             <li key={p.id}>

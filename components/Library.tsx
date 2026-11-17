@@ -106,8 +106,8 @@ export default function Library() {
             <div className="eyebrow">Act II</div>
             <h2>The Project Library</h2>
             <p className="note" style={{ marginBottom: 0 }}>
-              Seven projects and one reading list, landed in no particular order. Pick a sorting method and they will shelve
-              themselves once, then stay put. Open any book to read it; the last one holds my favorite books and writing.
+              This library shelves projects and one reading list in no particular order. Choose a sorting algorithm and they will
+              shelve themselves! Open any book to read it. The last one holds my favorite books and writing.
             </p>
           </div>
           <div className="sorter">

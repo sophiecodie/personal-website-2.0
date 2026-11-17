@@ -9,7 +9,7 @@
   --cream:#f3ece0; --cream-2:#ebe2d2; --paper:#fffcf6;
   --ink:#2e2433; --ink-soft:#6e6270; --rule:#d8ccb9;
   --plum:#5b3a52; --rose:#b0607a; --gold:#a8834a;
-  --display:var(--font-display), "Didot", "Bodoni 72", Georgia, serif;
+  --display:var(--font-display), "EB Garamond", Garamond, "Hoefler Text", Georgia, serif;
   --body:var(--font-body), "Futura", "Avenir Next", system-ui, sans-serif;
   --mono:var(--font-mono), ui-monospace, Menlo, monospace;
 }
@@ -33,7 +33,7 @@ nav.top a:hover,nav.top a:focus-visible{color:var(--rose)}
 /* overture */
 .hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);align-items:center;gap:24px;min-height:min(86vh,820px);padding-block:10px 40px}
 .hero h1{font-size:clamp(64px,11vw,148px);line-height:.9;font-weight:400}
-.hero h1 em{font-style:italic;color:var(--plum)}
+.hero h1 em{font-style:normal;color:var(--plum)}
 .hero .lede{font-size:clamp(17px,1.6vw,20px);font-weight:300;max-width:34ch;margin:18px 0 22px;color:var(--ink-soft)}
 .hero .cue{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft)}
 .fig{aspect-ratio:1/1;width:100%;max-width:600px;justify-self:center;position:relative}
@@ -68,7 +68,7 @@ ol.exp .meta{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:
 /* entr'acte */
 .interlude{height:150vh;display:flex;align-items:center;justify-content:center}
 .interlude .card{background:rgba(243,236,224,.86);backdrop-filter:blur(2px);padding:34px 36px;max-width:520px;text-align:center;border-radius:2px}
-.interlude h2{font-size:clamp(34px,4.5vw,54px);font-style:italic;line-height:1.08}
+.interlude h2{font-size:clamp(40px,5vw,62px);line-height:1.04}
 .interlude p{color:var(--ink-soft);font-weight:300;margin:12px 0 18px}
 .code{display:inline-block;text-align:left;font-family:var(--mono);font-size:12.5px;line-height:1.75;color:var(--ink-soft);background:var(--paper);border:1px solid var(--rule);padding:12px 18px}
 .code b{font-weight:400;color:var(--plum)}.code i{font-style:normal;color:var(--rose)}.code u{text-decoration:none;color:#a99c93}
@@ -80,11 +80,11 @@ ol.exp .meta{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:
 .toc::before{transform:rotate(-2.5deg) translate(6px,8px)}
 .toc::after{transform:rotate(2deg) translate(-8px,12px)}
 .toc .eyebrow{text-align:center}
-.toc h2{text-align:center;font-size:clamp(34px,4.4vw,50px);font-style:italic;margin:4px 0 26px}
+.toc h2{text-align:center;font-size:clamp(40px,4.8vw,58px);margin:4px 0 26px}
 .toc ol{list-style:none;margin:0;padding:0;display:grid;gap:2px}
 .toc a{display:grid;grid-template-columns:30px auto minmax(12px,1fr) auto;align-items:baseline;gap:10px;padding:7px 0;color:var(--ink);text-decoration:none}
 .toc a:hover .tt,.toc a:focus-visible .tt{color:var(--rose)}
-.toc .n{font-family:var(--display);font-style:italic;color:var(--gold)}
+.toc .n{font-family:var(--display);color:var(--gold)}
 .toc .tt{font-family:var(--display);font-size:19px;transition:color .2s}
 .toc .tt small{font-family:var(--body);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);margin-left:10px}
 .toc .lead{border-bottom:1px dotted #b9ab98;transform:translateY(-5px)}
@@ -121,7 +121,7 @@ ol.exp .meta{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:
 .book:focus-visible{outline:2px solid var(--rose);outline-offset:3px}
 .bookend{position:absolute;bottom:14px;width:12px;height:70px;background:linear-gradient(90deg,#b8955a,#d9bd85 40%,#9c7a45);border-radius:2px 2px 0 0;transition:left .28s}
 .detail{display:grid;grid-template-columns:auto minmax(0,1fr);gap:28px;align-items:start;margin-top:46px;padding-top:28px;border-top:1px solid var(--rule)}
-.detail .num{font-family:var(--display);font-size:64px;line-height:.8;color:var(--gold);font-style:italic}
+.detail .num{font-family:var(--display);font-size:64px;line-height:.8;color:var(--gold)}
 .detail h3{font-size:clamp(28px,3.4vw,40px);line-height:1.05}
 .detail .meta{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);margin:8px 0 10px}
 .detail p{margin:0;max-width:60ch;font-weight:300;font-size:17px}
@@ -132,14 +132,14 @@ ol.exp .meta{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:
 /* curtain */
 .curtain{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.8fr);gap:30px;align-items:center;padding-block:80px 60px}
 .curtain h2{font-size:clamp(46px,7vw,92px);line-height:.95}
-.curtain h2 em{font-style:italic;color:var(--plum)}
+.curtain h2 em{font-style:normal;color:var(--plum)}
 .contact{display:grid;gap:6px;margin-top:22px;font-size:16px}
 .contact span{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft);margin-top:8px}
 .contact a{color:var(--ink)}
 #bow{aspect-ratio:1/1;width:100%;max-width:420px;justify-self:center}
 @media (max-width:760px){.curtain{grid-template-columns:minmax(0,1fr)}#bow{max-width:300px}}
 footer{padding-block:30px 50px;font-size:12px;color:var(--ink-soft);letter-spacing:.06em;border-top:1px solid var(--rule)}
-footer .theme-note{font-family:var(--display);font-style:italic;font-size:16px;letter-spacing:0;color:var(--ink);margin:0 0 12px}
+footer .theme-note{font-family:var(--display);font-size:17px;letter-spacing:0;color:var(--ink);margin:0 0 12px}
 .placeholder{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
 html,body{margin:0;padding:0}
 img{max-width:100%}
