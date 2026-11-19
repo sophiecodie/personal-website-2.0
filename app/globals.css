@@ -89,6 +89,11 @@ ol.exp .meta{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:
 .toc .tt small{font-family:var(--body);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);margin-left:10px}
 .toc .lead{border-bottom:1px dotted #b9ab98;transform:translateY(-5px)}
 .toc .yr{font-family:var(--body);font-size:14px;color:var(--ink-soft);font-variant-numeric:tabular-nums}
+.toc h2{margin-bottom:16px}
+.toc .portfolio-cta{text-align:center;margin:0 0 28px}
+.toc .portfolio-cta a{display:inline-block;font-family:var(--body);font-size:13px;letter-spacing:.14em;text-transform:uppercase;background:var(--plum);color:var(--paper);border-radius:999px;padding:11px 24px;text-decoration:none;transition:background .2s,transform .2s}
+.toc .portfolio-cta a:hover{background:var(--rose);transform:translateY(-1px)}
+.toc .portfolio-cta a:focus-visible{outline:2px solid var(--rose);outline-offset:3px}
 .toc .foot{margin-top:22px;text-align:center;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft)}
 @media (max-width:560px){.toc{padding:34px 22px 28px}.toc .tt small{display:none}.toc .tt{font-size:17px}}
 

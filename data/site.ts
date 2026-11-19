@@ -5,6 +5,7 @@ export const site = {
   email: "sophie59595@gmail.com",
   linkedin: "https://www.linkedin.com/in/sophie-suzuki-shih-724371316/",
   github: "https://github.com/sophiecodie",
+  portfolio: "https://portfolio.sophieshih.com/",
   resume: "/assets/Sophie_Shih_resume.pdf",
   headshot: "/assets/headshot.jpg",
 };

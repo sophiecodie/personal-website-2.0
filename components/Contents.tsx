@@ -1,4 +1,5 @@
 import { projects } from "@/data/projects";
+import { site } from "@/data/site";
 
 /** A plain table of contents, newest first, with the reading shelf last. The particles stack up around it. */
 export default function Contents() {
@@ -10,6 +11,9 @@ export default function Contents() {
       <div className="toc" id="toc">
         <div className="eyebrow">Contents</div>
         <h2>Projects</h2>
+        <div className="portfolio-cta">
+          <a href={site.portfolio} target="_blank" rel="noopener">View my full portfolio ↗</a>
+        </div>
         <ol>
           {list.map(({ p }, n) => (
             <li key={p.id}>
